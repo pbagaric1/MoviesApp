@@ -1,0 +1,22 @@
+﻿<a 
+   style="cursor: pointer" 
+   [routerLink]="['movieId', index]"
+   routerLinkActive="active"
+   class="list-group-item clearfix">
+    <div class="pull-left">
+        <h4 class="list-group item-heading">{{ movie.name }}</h4>
+        <h5 class="list-group-item-text">{{ movie.actors }}</h5>
+        <span>
+            <rating [(ngModel)]="starsCount"
+                    [readonly]="true" [max]="1"></rating>
+            {{ movie.rating | number : '1.1-1' }}
+        </span>    
+    </div>
+    
+    <span class="pull-right">
+        <img src="{{ movie.imagePath }}"
+             alt=""
+             class="img-responsive"
+             style="height: 100px; width: 150px;" />
+    </span>
+</a>
