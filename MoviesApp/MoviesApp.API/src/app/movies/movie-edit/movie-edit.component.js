@@ -36,6 +36,7 @@ var MovieEditComponent = (function () {
     }
     MovieEditComponent.prototype.ngOnInit = function () {
         var _this = this;
+        console.log(this.selectedGenre);
         this.route.params
             .subscribe(function (params) {
             _this.id = +params['id'];
@@ -49,18 +50,28 @@ var MovieEditComponent = (function () {
         this.genres = this.movieService.getGenres();
     };
     MovieEditComponent.prototype.onSubmit = function () {
+        var _this = this;
         var newMovieId = angular2_uuid_1.UUID.UUID();
         this.movieRatedBy = localStorage.getItem('username');
         var currentTime = Date.now();
         var timeOfAdding = this.datePipe.transform(currentTime, 'yyyy-MM-dd hh:mm:ss');
-        var newMovie = new movie_model_1.Movie(newMovieId, this.movieForm.value['name'], this.movieForm.value['actors'], 0, this.movieForm.value['description'], localStorage.getItem('username'), 0, this.movieForm.value['imagePath'], timeOfAdding, this.movieRatedBy, this.movieForm.value['genre']);
+        var newMovie = new movie_model_1.Movie(newMovieId, this.movieForm.value['name'], this.movieForm.value['actors'], 0, this.movieForm.value['description'], localStorage.getItem('username'), 0, this.movieForm.value['imagePath'], timeOfAdding, this.movieRatedBy, this.selectedGenre.id);
         if (this.editMode) {
-            this.editMovie = new movie_model_1.Movie(this.movieId, this.movieForm.value['name'], this.movieForm.value['actors'], this.movieRating, this.movieForm.value['description'], this.movieAddedBy, this.movieNumberOfRatings, this.movieForm.value['imagePath'], this.movieTimeOfAdding, this.movieRatedBy, this.movieGenre);
+            this.editMovie = new movie_model_1.Movie(this.movieId, this.movieForm.value['name'], this.movieForm.value['actors'], this.movieRating, this.movieForm.value['description'], this.movieAddedBy, this.movieNumberOfRatings, this.movieForm.value['imagePath'], this.movieTimeOfAdding, this.movieRatedBy, this.selectedGenre.id);
+            this.editMovie.genre = this.selectedGenre;
             this.dataStorageService.editMovie(this.id, this.editMovie, this.movieRatedBy);
         }
         else {
             console.log(newMovie);
-            this.dataStorageService.addMovie(newMovie);
+            this.dataStorageService.addMovie(newMovie)
+                .subscribe(function (res) {
+                newMovie.genre = _this.selectedGenre;
+                _this.movieService.addMovie(newMovie);
+                console.log(res);
+            }, function (error) {
+                console.log(error);
+                window.alert(error.statusText);
+            });
         }
         this.onCancel();
     };
@@ -79,13 +90,16 @@ var MovieEditComponent = (function () {
             this.movieAddedBy = movie.addedBy;
             this.movieTimeOfAdding = movie.timeOfAdding;
             this.movieNumberOfRatings = movie.numberOfRatings;
+            this.movieGenreId = movie.genre.id;
+            this.movieGenreType = movie.genre.type;
             this.movieGenre = movie.genre;
+            console.log("movie genre " + this.movieGenreType);
         }
         this.movieForm = new forms_1.FormGroup({
             'name': new forms_1.FormControl(this.movieName, forms_1.Validators.required),
             'imagePath': new forms_1.FormControl(this.movieImagePath, forms_1.Validators.required),
             'description': new forms_1.FormControl(this.movieDescription, forms_1.Validators.required),
-            'genre': new forms_1.FormControl(this.movieGenre, forms_1.Validators.required),
+            'genre': new forms_1.FormControl(this.movieGenreType, forms_1.Validators.required),
             'actors': new forms_1.FormControl(this.movieActors, forms_1.Validators.required)
         });
     };

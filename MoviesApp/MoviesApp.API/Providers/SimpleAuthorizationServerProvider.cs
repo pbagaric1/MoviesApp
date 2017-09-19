@@ -32,7 +32,7 @@ namespace MoviesApp.API.Providers
                     return;
                 }
             }
-
+            //check if admin or normal user
             var identity = new ClaimsIdentity(context.Options.AuthenticationType);
             if (context.UserName == "admin")
             {
@@ -44,6 +44,7 @@ namespace MoviesApp.API.Providers
                 identity.AddClaim(new Claim("role", "user"));
             }
 
+            //add username to token
             var props = new AuthenticationProperties(new Dictionary<string, string>
                 {
                     {  "username", context.UserName }

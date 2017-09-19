@@ -31,7 +31,7 @@ var MovieListComponent = (function () {
         this.dataStorageService.getMovies();
     };
     MovieListComponent.prototype.onNewMovie = function () {
-        this.router.navigate(['new'], { relativeTo: this.route });
+        this.router.navigate(['new'], { relativeTo: this.route }); //add "new" to current route
     };
     MovieListComponent = __decorate([
         core_1.Component({

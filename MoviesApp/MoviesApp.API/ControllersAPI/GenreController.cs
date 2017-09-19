@@ -51,12 +51,12 @@ namespace GenresApp.MVC.ControllersAPI
         [Authorize (Roles = "admin")]
         [Route("add")]
         [HttpPost]
-        public async Task<HttpResponseMessage> Add(GenreViewModel Genre)
+        public async Task<HttpResponseMessage> Add(Genre genre)
         {
             try
             {
                 //Genre.Id = Guid.NewGuid();
-                var entity = await GenreRepo.Add(Mapper.Map<Genre>(Genre));
+                var entity = await GenreRepo.Add(genre);
                 return Request.CreateResponse(HttpStatusCode.OK, entity);
             }
             catch (Exception e)

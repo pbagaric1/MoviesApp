@@ -29,7 +29,7 @@
                                 formControlName="genre"
                                 class="form-control"
                                 [(ngModel)]="selectedGenre">
-                            <option *ngFor="let genre of genres" [(ngValue)]="genre.type">{{genre.type}}</option>
+                            <option *ngFor="let genre of genres" [ngValue]="genre" [selected]="movieGenreType">{{genre.type}}</option>
                         </select>
                     </div>
                 </div>

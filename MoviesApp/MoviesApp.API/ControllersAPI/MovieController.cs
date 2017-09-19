@@ -104,12 +104,23 @@ namespace MoviesApp.MVC.ControllersAPI
         [Authorize]
         [Route("add")]
         [HttpPost]
-        public async Task<HttpResponseMessage> Add(MovieViewModel movie)
+        public async Task<HttpResponseMessage> Add(Movie movie)
         {
             try
             {
-                //movie.Id = Guid.NewGuid();
-                var entity = await MovieRepo.Add(Mapper.Map<Movie>(movie));
+                //var newMovie = new Movie();
+                //newMovie.Id = movie.Id;
+                //newMovie.Actors = movie.Actors;
+                //newMovie.AddedBy = movie.AddedBy;
+                //newMovie.Description = movie.Description;
+                //newMovie.ImagePath = movie.ImagePath;
+                //newMovie.Name = movie.Name;
+                //newMovie.NumberOfRatings = movie.NumberOfRatings;
+                //newMovie.Rating = movie.Rating;
+                //newMovie.TimeOfAdding = movie.TimeOfAdding;
+                //newMovie.GenreId = movie.GenreId;
+
+                var entity = await MovieRepo.Add(movie);
                 return Request.CreateResponse(HttpStatusCode.OK, entity);
             }
             catch (Exception e)
@@ -163,6 +174,7 @@ namespace MoviesApp.MVC.ControllersAPI
                 toBeUpdated.Description = movie.Description;
                 toBeUpdated.ImagePath = movie.ImagePath;
                 toBeUpdated.Actors = movie.Actors;
+                toBeUpdated.GenreId = movie.GenreId;
                 //toBeUpdated.NumberOfRatings = movie.NumberOfRatings;
                 //toBeUpdated.Rating = movie.Rating;
                 //toBeUpdated.RatedBy = movie.RatedBy;

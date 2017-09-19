@@ -18,7 +18,7 @@ export class MovieEditComponent implements OnInit {
     editMode = false;
     movieForm: FormGroup;
     genres: Genre[];
-    selectedGenre: string;
+    selectedGenre: Genre;
     editMovie: Movie;
 
     movieId = '';
@@ -32,7 +32,8 @@ export class MovieEditComponent implements OnInit {
     movieTimeOfAdding = '';
     movieNumberOfRatings: number;
     movieRatedBy: string;
-    movieGenre: string;
+    movieGenreType: string;
+    movieGenre: Genre; 
 
     constructor(private route: ActivatedRoute,
                 private movieService: MovieService,
@@ -41,6 +42,7 @@ export class MovieEditComponent implements OnInit {
                 private datePipe: DatePipe) { }
 
     ngOnInit() {
+        console.log(this.selectedGenre);
         this.route.params
             .subscribe(
             (params: Params) => {
@@ -72,17 +74,29 @@ export class MovieEditComponent implements OnInit {
             this.movieForm.value['imagePath'],
             timeOfAdding,
             this.movieRatedBy,
-            this.movieForm.value['genre']);
+            this.selectedGenre.id);
 
         if (this.editMode) {
             this.editMovie = new Movie(this.movieId, this.movieForm.value['name'], this.movieForm.value['actors'],
                 this.movieRating, this.movieForm.value['description'], this.movieAddedBy, this.movieNumberOfRatings,
-                this.movieForm.value['imagePath'], this.movieTimeOfAdding, this.movieRatedBy, this.movieGenre);
+                this.movieForm.value['imagePath'], this.movieTimeOfAdding, this.movieRatedBy, this.selectedGenre.id);
 
+            this.editMovie.genre = this.selectedGenre;
             this.dataStorageService.editMovie(this.id, this.editMovie, this.movieRatedBy);
-        } else {
+        } else { 
             console.log(newMovie);
-            this.dataStorageService.addMovie(newMovie);
+            this.dataStorageService.addMovie(newMovie)
+                .subscribe(
+                (res) => {
+                    newMovie.genre = this.selectedGenre;
+                    this.movieService.addMovie(newMovie);
+                    console.log(res);
+                },
+                (error) => {
+                    console.log(error);
+                    window.alert(error.statusText);
+                }
+                );
                 
         }
         this.onCancel();
@@ -106,14 +120,16 @@ export class MovieEditComponent implements OnInit {
             this.movieAddedBy = movie.addedBy;
             this.movieTimeOfAdding = movie.timeOfAdding;
             this.movieNumberOfRatings = movie.numberOfRatings;
+            this.movieGenreId = movie.genre.id;
+            this.movieGenreType = movie.genre.type;
             this.movieGenre = movie.genre;
-
+            console.log("movie genre " + this.movieGenreType);
         }
         this.movieForm = new FormGroup({
             'name': new FormControl(this.movieName, Validators.required),
             'imagePath': new FormControl(this.movieImagePath, Validators.required),
             'description': new FormControl(this.movieDescription, Validators.required),
-            'genre': new FormControl(this.movieGenre, Validators.required),
+            'genre': new FormControl(this.movieGenreType, Validators.required),
             'actors': new FormControl(this.movieActors, Validators.required)
         });
     }

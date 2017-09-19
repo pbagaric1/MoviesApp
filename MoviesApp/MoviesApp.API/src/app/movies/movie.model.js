@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Movie = (function () {
-    function Movie(id, name, actors, rating, desc, addedBy, numberOfRatings, imagePath, timeOfAdding, ratedBy, genre) {
+    function Movie(id, name, actors, rating, desc, addedBy, numberOfRatings, imagePath, timeOfAdding, ratedBy, genreId) {
         this.id = id;
         this.name = name;
         this.actors = actors;
@@ -12,7 +12,7 @@ var Movie = (function () {
         this.imagePath = imagePath;
         this.timeOfAdding = timeOfAdding;
         this.ratedBy = ratedBy;
-        this.genre = genre;
+        this.genreId = genreId;
     }
     return Movie;
 }());

@@ -1,7 +1,9 @@
-﻿export class Movie {
+﻿import { Genre } from './genre.model';
+
+export class Movie {
 
     public id: string;
-    public genre: string;
+    public genreId: string;
     public name: string;
     public actors: string;
     public rating: number;
@@ -11,10 +13,11 @@
     public imagePath: string;
     public timeOfAdding: string;
     public ratedBy: string;
+    public genre: Genre;
 
     constructor(id: string, name: string, actors: string, rating: number,
          desc: string, addedBy: string, numberOfRatings: number,
-         imagePath: string, timeOfAdding: string, ratedBy: string, genre: string) {
+         imagePath: string, timeOfAdding: string, ratedBy: string, genreId: string) {
 
         this.id = id;
         this.name = name;
@@ -26,6 +29,6 @@
         this.imagePath = imagePath;
         this.timeOfAdding = timeOfAdding;
         this.ratedBy = ratedBy;
-        this.genre = genre;
+        this.genreId = genreId;
     }
 }

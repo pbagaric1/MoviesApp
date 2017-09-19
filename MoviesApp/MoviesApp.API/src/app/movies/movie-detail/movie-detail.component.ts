@@ -39,7 +39,7 @@ export class MovieDetailComponent implements OnInit {
             (params: Params) => {
                 this.id = +params['id'];
                 this.movie = this.movieService.getMovie(this.id);   
-                console.log("id=" + this.id, "genreId=" + this.genreId);
+                console.log(this.movie);
                 this.isAuthenticated = this.authService.isAuthenticated();
                 if (this.isAuthenticated)
                 {
@@ -47,7 +47,7 @@ export class MovieDetailComponent implements OnInit {
                         .subscribe(userRating => {
                             this.starsCount = userRating;
                             if (userRating == 0)
-                                this.ifUserRated = false;
+                                this.ifUserRated = false; 
                             else this.ifUserRated = true;
                         })
                 }

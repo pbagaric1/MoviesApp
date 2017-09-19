@@ -31,7 +31,7 @@ var MovieDetailComponent = (function () {
             .subscribe(function (params) {
             _this.id = +params['id'];
             _this.movie = _this.movieService.getMovie(_this.id);
-            console.log("id=" + _this.id, "genreId=" + _this.genreId);
+            console.log(_this.movie);
             _this.isAuthenticated = _this.authService.isAuthenticated();
             if (_this.isAuthenticated) {
                 _this.dataStorageService.getUserRating(_this.id, _this.movie.id, _this.userRated)

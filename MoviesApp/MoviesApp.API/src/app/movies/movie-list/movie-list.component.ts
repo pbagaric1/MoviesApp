@@ -29,6 +29,6 @@ export class MovieListComponent implements OnInit {
     }
 
     onNewMovie() {
-        this.router.navigate(['new'], { relativeTo: this.route });
+        this.router.navigate(['new'], { relativeTo: this.route }); //add "new" to current route
     }
 } 

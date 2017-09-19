@@ -43,19 +43,11 @@ var DataStorageService = (function () {
             .map(function (res) { return res.json(); });
     };
     DataStorageService.prototype.addMovie = function (movie) {
-        var _this = this;
         var headers = new http_1.Headers({ 'Content-Type': 'application/json' });
         var token = localStorage.getItem('auth_token');
         headers.append('Authorization', 'Bearer ' + token);
         console.log(headers);
-        return this.http.post('http://localhost:55840/api/movie/add', movie, { headers: headers })
-            .subscribe(function (res) {
-            _this.movieService.addMovie(movie);
-            console.log(res);
-        }, function (error) {
-            console.log(error);
-            window.alert(error.statusText);
-        });
+        return this.http.post('http://localhost:55840/api/movie/add', movie, { headers: headers });
     };
     DataStorageService.prototype.addGenre = function (genre) {
         var _this = this;

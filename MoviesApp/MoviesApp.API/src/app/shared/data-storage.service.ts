@@ -55,16 +55,7 @@ export class DataStorageService {
         headers.append('Authorization' , 'Bearer ' + token);
         console.log(headers);
         return this.http.post('http://localhost:55840/api/movie/add', movie, { headers: headers })
-            .subscribe(
-            (res) => {
-                this.movieService.addMovie(movie);
-                console.log(res);
-            },
-            (error) => {
-                console.log(error);
-                window.alert(error.statusText);
-            }
-            );
+            
     }
 
     addGenre(genre: Genre) {
